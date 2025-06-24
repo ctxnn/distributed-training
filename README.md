@@ -20,6 +20,41 @@ still,
 something to remember:
 	•	Can your model fit on one GPU? → use DDP
 	•	If not? → use FSDP or pipeline/tensor parallelism
-    
+
+
+**results** of comparision using `train_ddp_comp.py`:
+
+note: it is for 10 epochs
+**cpu** -> 60.38 seconds
+**gpu[Tesla T4]** -> 59.48 seconds(not too less idk why)
+**ddp(2 gpus[Tesla T4])** -> 39.79
+
+
+**simple neural net(`simple nn`)**
+
+- `train_ddp_comp.py` -> it trains the net on cpu, single gpu, and two gpus(using ddp)
+
+*commands*:
+```python
+
+#for cpu 
+python train_all_modes.py --mode cpu
+
+#for gpu 
+python train_all_modes.py --mode gpu
+
+#for ddp 
+torchrun --nproc_per_node=<N(GPUS)> train_all_modes.py --mode ddp
+```
+- `train_fsdp.py` -> it trains the net on differnet gpus 
+```python
+# to run fully sharded data parallel
+python train_fsdp.py
+```
+
+
+
+
 todo:
 - [ ] implement transformer with distributed training
+
